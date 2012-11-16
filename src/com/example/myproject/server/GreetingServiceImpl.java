@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Vector;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -19,13 +20,25 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
 
-	public String queryItem(String input) throws IllegalArgumentException {
+	/**
+	 * Copy paste friendly !!, This function implements CURL for connect to the API
+	 * Search
+	 * @description make a query in API Search
+	 * @param input: key world to find, for example 'ipod'
+	 * @param site: site id to find, for example MLA
+	 * @return html type with query results, to show in the DevMercadoLibreQuery.html 
+	 * @author nicolas moraes @nmoraes_
+	 */
+	public String queryItem(String input, String site)
+			throws IllegalArgumentException {
 
-		String site = null;
-		String query = null;
 		String currency = null;
 		String stop_time = null;
 		String condition = null;
+		String id = null;
+		String site_id = null;
+		String sold_quantity = null;
+		String listing_type_id = null;
 
 		String titles = null;
 		String subtitle = null;
@@ -36,66 +49,92 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		String html = "";
 		System.out.println(parametro);
 
+
+		
 		URL url;
 		try {
-			url = new URL("https://api.mercadolibre.com/sites/MLB/search?q="
-					+ parametro);
+			url = new URL("https://api.mercadolibre.com/sites/" + site
+					+ "/search?q=" + parametro);
 			InputStream response = url.openStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response));
 			String result = "";
 
 			for (String line; (line = reader.readLine()) != null;) {
-				System.out.println(line);
 				result = result + line;
 			}
+			reader.close();
 
 			System.out.println("result: " + result);
 
 			JSONObject json = (JSONObject) JSONSerializer.toJSON(result);
 
-			// String id = json.getString( "id" );
-			site = json.getString("site_id");
-			query = json.getString("query");
-
-			// Obtengo el array de items
+			// get items array
 			JSONObject p = (JSONObject) json.get("paging");
 			String total = p.getString("total");
 			System.out.println("Total: " + total);
 
 			JSONArray results = json.getJSONArray("results");
 
-			// results.size();
-			// Obtengo los 10 primeros
-			for (int i = 0; i < 5; i++) {
+			
+			// for json array 
+			for (int i = 0; i < 7; i++) {
 				JSONObject array = (JSONObject) results.get(i);
 				titles = array.getString("title");
 				subtitle = array.getString("subtitle");
 				price = array.getString("price");
 				thumbnail = array.getString("thumbnail");
+				// changing size image
 				pic = thumbnail.replace("_v_I_f", "_v_T_f");
 				currency = array.getString("currency_id");
 				stop_time = array.getString("stop_time");
 				condition = array.getString("condition");
+				id = array.getString("id");
+				site_id = array.getString("site_id");
+				sold_quantity = array.getString("sold_quantity");
+				listing_type_id = array.getString("listing_type_id");
+				
+				//created and concatenate result in html variable.
 
-				html = html + "<div><br><b>Title :</b> " + titles
+				
+				html = html + 
+						" <div> <p> <input type= \"image\" src= " + pic + " "+ " +  align=\"left\" onclick=\"func('hello')\"> </p>"
+						+ "<p><b>Title :</b> " + titles
 						+ "<br><b>Description: </b>" + subtitle
 						+ "<br><b>Price: </b>" + price + " " + currency
 						+ "<br><b>State: </b>" + condition
 						+ "<br><b>Up to: </b>" + stop_time
-						+ "<br><img src=" + pic + "><br></div>";
+						+ "<br><b>Item Id: </b>" + id + "<br><b>Site Id: </b>"
+						+ site_id + "<br><b>Count: </b>" + sold_quantity
+						+ "<br><b>Listing type: </b>" + listing_type_id	
+						+ "<br><br></p> </div><br>";
 
-			}
-
-			reader.close();
-
+				
+				
+				//html=html +	"<div><input type=\"button\" id=\"btnModificar\" name=\"submit\" value=\"CACA "+i+ "\" "+  "></div>";
+			//html=html +"<input type=\"button\" value=\"Generic Button\">";
+			
+			
+			
+			}//<td id="sendButtonContainer"></td>  
+		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return html;
-
+		
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

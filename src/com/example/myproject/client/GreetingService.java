@@ -1,5 +1,7 @@
 package com.example.myproject.client;
 
+import java.util.Vector;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -8,5 +10,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
-	String queryItem(String name) throws IllegalArgumentException;
+	String queryItem(String query, String site) throws IllegalArgumentException;
 }
