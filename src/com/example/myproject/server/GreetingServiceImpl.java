@@ -4,12 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Vector;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
-
 import com.example.myproject.client.GreetingService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -29,7 +26,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	 * @return html type with query results, to show in the DevMercadoLibreQuery.html 
 	 * @author nicolas moraes @nmoraes_
 	 */
-	public String queryItem(String input, String site)
+	public String[] queryItem(String input, String site)
 			throws IllegalArgumentException {
 
 		String currency = null;
@@ -46,9 +43,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		String thumbnail = null;
 		String pic = null;
 		String parametro = input.replaceAll(" ", "");
-		String html = "";
-		System.out.println(parametro);
-
+		String html = "";		
+		
+		String [] s = new String[7];
 
 		
 		URL url;
@@ -85,7 +82,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				price = array.getString("price");
 				thumbnail = array.getString("thumbnail");
 				// changing size image
-				pic = thumbnail.replace("_v_I_f", "_v_T_f");
+				pic = changeImageSize(thumbnail);
 				currency = array.getString("currency_id");
 				stop_time = array.getString("stop_time");
 				condition = array.getString("condition");
@@ -93,11 +90,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				site_id = array.getString("site_id");
 				sold_quantity = array.getString("sold_quantity");
 				listing_type_id = array.getString("listing_type_id");
-				
-				//created and concatenate result in html variable.
-
-				
-				html = html + 
+					
+				html = "<!--"+id + "                                         -->"+
 						" <div> <p> <input type= \"image\" src= " + pic + " "+ " +  align=\"left\" onclick=\"func('hello')\"> </p>"
 						+ "<p><b>Title :</b> " + titles
 						+ "<br><b>Description: </b>" + subtitle
@@ -108,33 +102,39 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 						+ site_id + "<br><b>Count: </b>" + sold_quantity
 						+ "<br><b>Listing type: </b>" + listing_type_id	
 						+ "<br><br></p> </div><br>";
-
 				
-				
-				//html=html +	"<div><input type=\"button\" id=\"btnModificar\" name=\"submit\" value=\"CACA "+i+ "\" "+  "></div>";
-			//html=html +"<input type=\"button\" value=\"Generic Button\">";
+				s[i]=html;
 			
-			
-			
-			}//<td id="sendButtonContainer"></td>  
-		
+			}
+					
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return html;
-		
+		return s;
 	}
 
 	
 	
+	public String changeImageSize(String thumbnail){
+		String image = null;	
+		//small I
+		//medium T
+		image= thumbnail.replace("_v_I_f", "_v_T_f");		
+	return image;	
+		
+	}
 	
 	
 	
-	
-	
-	
+	@Override
+	public String viewItem(String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	
 	
 }

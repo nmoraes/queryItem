@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='devmercadolibrequery'>
+    
+<script src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"/>
+<script src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"/>
+    
+    
+    
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
 
