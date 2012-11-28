@@ -46,6 +46,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		String html = "";		
 		
 		String [] s = new String[7];
+		
+		String permalink="";
 
 		
 		URL url;
@@ -90,9 +92,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				site_id = array.getString("site_id");
 				sold_quantity = array.getString("sold_quantity");
 				listing_type_id = array.getString("listing_type_id");
+				permalink =array.getString("permalink");
+				System.out.println("permalink " + permalink);
 					
 				html = "<!--"+id + "                                         -->"+
-						" <div> <p> <input type= \"image\" src= " + pic + " "+ " +  align=\"left\" onclick=\"func('hello')\"> </p>"
+						" <div> <p> <input type= \"image\" src= " + pic + " "+ " +  align=\"left\" onclick=\"location.href='" + permalink+ "' \"/> </p>"
 						+ "<p><b>Title :</b> " + titles
 						+ "<br><b>Description: </b>" + subtitle
 						+ "<br><b>Price: </b>" + price + " " + currency
@@ -100,7 +104,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 						+ "<br><b>Up to: </b>" + stop_time
 						+ "<br><b>Item Id: </b>" + id + "<br><b>Site Id: </b>"
 						+ site_id + "<br><b>Count: </b>" + sold_quantity
-						+ "<br><b>Listing type: </b>" + listing_type_id	
+						+ "<br><b>Listing type: </b>" + listing_type_id	+ "<br><b>: </b>"
 						+ "<br><br></p> </div><br>";
 				
 				s[i]=html;
