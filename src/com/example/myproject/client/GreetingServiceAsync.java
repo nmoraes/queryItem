@@ -8,5 +8,4 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface GreetingServiceAsync {
 	void queryItem(String query, String site, AsyncCallback<String[]> callback);
-	void viewItem(String query, AsyncCallback<String> callback);
 }

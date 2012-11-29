@@ -122,18 +122,18 @@ public class DevMercadoLibreQuery implements EntryPoint {
 		comboBox = new ListBox();
 		rootPanel.add(comboBox, 10, 85);
 		comboBox.setSize("100px", "30px");
-		comboBox.addItem("MLA");
-		comboBox.addItem("MLB");
-		comboBox.addItem("MCO");
-		comboBox.addItem("MCR");
-		comboBox.addItem("MEC");
-		comboBox.addItem("MLC");
-		comboBox.addItem("MLM");
-		comboBox.addItem("MLU");
-		comboBox.addItem("MLV");
-		comboBox.addItem("MPA");
-		comboBox.addItem("MPT");
-		comboBox.addItem("MRD");
+		comboBox.addItem("Argentina");
+		comboBox.addItem("Brasil");
+		comboBox.addItem("Colombia");
+		comboBox.addItem("Costa Rica");
+		comboBox.addItem("Ecuador");
+		comboBox.addItem("Chile");
+		comboBox.addItem("Mexico");
+		comboBox.addItem("Uruguay");
+		comboBox.addItem("Venezuela");
+		comboBox.addItem("Panama");
+		comboBox.addItem("Portugal");
+		comboBox.addItem("Dominicana");
 
 		RootPanel.get("comboBox").add(comboBox);
 

@@ -9,6 +9,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
 	String[] queryItem(String query, String site);
-	String viewItem(String query);
 
 }
