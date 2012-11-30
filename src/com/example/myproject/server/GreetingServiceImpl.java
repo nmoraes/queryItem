@@ -3,6 +3,7 @@ package com.example.myproject.server;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -51,6 +52,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		String permalink = "";
 		//get site ID
 		String comboSite = combo(site);
+		
+		String defaultCurrencyId =null;
+		String symbolCurrency=null;
 
 		URL url;
 		try {
@@ -87,6 +91,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				// changing size image
 				pic = changeImageSize(thumbnail);
 				currency = array.getString("currency_id");
+				//defaultCurrencyId =array.getString("default_currency_id");
+				symbolCurrency=currencies(currency);
+				
 				stop_time = array.getString("stop_time");
 				condition = array.getString("condition");
 				id = array.getString("id");
@@ -95,13 +102,16 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				listing_type_id = array.getString("listing_type_id");
 				permalink = array.getString("permalink");
 
+				
+				
+				
 				html = "<!--" + id
 						+ "                                         -->"
 						+ " <div> <p> <input type= \"image\" src= " + pic + " "
 						+ " +  align=\"left\" onclick=\"location.href='"
 						+ permalink + "' \"/> </p>" + "<p><b>Title :</b> "
 						+ titles + "<br><b>Description: </b>" + subtitle
-						+ "<br><b>Price: </b>" + price + " " + currency
+						+ "<br><b>Price: </b>" + price + " " + symbolCurrency
 						+ "<br><b>State: </b>" + condition
 						+ "<br><b>Up to: </b>" + stop_time
 						+ "<br><b>Item Id: </b>" + id + "<br><b>Site Id: </b>"
@@ -174,5 +184,43 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return combo;
 
 	}
+	
+	/**
+	 * @description get the symbol money in the api currencies.
+	 * https://api.mercadolibre.com/currencies
+	 * */
+	public String currencies(String defaultCurrencyId){
+		String symbolCurrency=null;
+		
+		try {
+			symbolCurrency=null;
+			URL url = new URL("https://api.mercadolibre.com/currencies/" +defaultCurrencyId);
+			InputStream response = url.openStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					response));
+			String result = "";
+
+			for (String line; (line = reader.readLine()) != null;) {
+				result = result + line;
+			}
+			reader.close();
+
+			JSONObject json = (JSONObject) JSONSerializer.toJSON(result);
+		
+			symbolCurrency=json.getString("symbol");
+			
+			System.out.println("CURRENCY:"+ symbolCurrency);
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		return symbolCurrency;
+	}
+	
+	
+	
+	
 
 }

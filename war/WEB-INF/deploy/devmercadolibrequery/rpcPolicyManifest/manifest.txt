@@ -1,3 +1,2 @@
 # Module devmercadolibrequery
 # RPC service class, partial path of RPC policy file
-com.example.myproject.client.GreetingService, 070A8F677F4AA1802E61C078897630D6.gwt.rpc
